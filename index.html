@@ -1,212 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Gems</title>
-    <style>
-        /* Reset and container styles */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+<html>
+<style>
+    /* .orbit-section */
+    .orbit-section {
+        display: grid;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        margin-inline: auto;
+    }
 
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000; /* Adjust as needed */
-        }
+    .orbit-section :is(.orbits, .content) {
+        grid-area: 1/1;
+    }
 
-        /* .orbit-section */
-        .orbit-section {
-            display: grid;
-            align-items: center;
-            width: min(600rem, 100%);
-            margin-inline: auto;
-        }
+    /* content */
+    .content {
+        place-self: center;
+        text-align: center;
+        max-width: 40ch;
+    }
 
-        .orbit-section :is(.orbits, .content) {
-            grid-area: 1/1;
-        }
+    .content>p:nth-of-type(1) {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+    }
 
-        /* content */
-        .content {
-            place-self: center;
-            text-align: center;
-            max-width: 40ch;
-        }
+    .content>h1 {
+        font-size: 2rem;
+        font-weight: 400;
+        color: #ffffff;
+    }
 
-        .content>p:nth-of-type(1) {
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
+    .content>h1>span {
+        background: -webkit-linear-gradient(#80D0BB, #A6FC74);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-        .content>h1 {
-            font-size: 2rem;
-            font-weight: 400;
-            color: #ffffff;
-        }
+    .content>p:nth-of-type(2) {
+        font-size: 1.125rem;
+        color: #D0D1D1;
+    }
 
-        .content>h1>span {
-            background: -webkit-linear-gradient(#80D0BB, #A6FC74);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    /* orbits */
+    .orbits {
+        --orbit-outer-size: 100%;
+        --orbit-inner-size: 75%;
+        --orbit-image-size: min(600px, 6rem);
+        --orbit-ring-color: hsl(0 0% 50% / 0.75);
+        --orbit-ring-thickness: 1px;
+        --orbit-animation-duration: 10s;
 
-        .content>p:nth-of-type(2) {
-            font-size: 1.125rem;
-            color: #D0D1D1;
-        }
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        --mask-image: radial-gradient(circle at center, transparent 40%, black 50%);
+        -webkit-mask-image: var(--mask-image);
+        mask-image: var(--mask-image);
+        overflow: hidden;
+        z-index: -1;
+    }
 
-        /* orbits */
-        .orbits {
-            --orbit-outer-size: 100%;
-            --orbit-inner-size: 75%;
-            --orbit-image-size: min(20vw, 6rem);
-            --orbit-ring-color: hsl(0 0% 50% / 0.75);
-            --orbit-ring-thickness: 1px;
-            --orbit-animation-duration: 10s;
+    .orbits :is(.left, .right, .outer, .inner) {
+        display: grid;
+        aspect-ratio: 1/1;
+    }
 
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            --mask-image: radial-gradient(circle at center, transparent 40%, black 50%);
-            -webkit-mask-image: var(--mask-image);
-            mask-image: var(--mask-image);
-            overflow: hidden;
-            z-index: -1;
-        }
+    .orbits .left {
+        place-items: center end;
+    }
 
-        .orbits :is(.left, .right, .outer, .inner) {
-            display: grid;
-            aspect-ratio: 1/1;
-        }
+    .orbits .right {
+        place-items: center start;
+    }
 
-        .orbits .left {
-            place-items: center end;
-        }
+    .orbits :is(.outer, .inner) {
+        grid-area: 1/1;
+        width: calc(var(--width) - var(--orbit-image-size));
+        border: var(--orbit-ring-thickness) solid var(--orbit-ring-color);
+        border-radius: 50%;
+        animation: orbit-rotate var(--orbit-animation-duration) linear infinite;
+    }
 
-        .orbits .right {
-            place-items: center start;
-        }
+    .orbits .outer {
+        --width: var(--orbit-outer-size);
+    }
 
-        .orbits :is(.outer, .inner) {
-            grid-area: 1/1;
-            width: calc(var(--width) - var(--orbit-image-size));
-            border: var(--orbit-ring-thickness) solid var(--orbit-ring-color);
-            border-radius: 50%;
-            animation: orbit-rotate var(--orbit-animation-duration) linear infinite;
-        }
+    .orbits .inner {
+        --width: var(--orbit-inner-size);
+    }
 
-        .orbits .outer {
-            --width: var(--orbit-outer-size);
-        }
+    .orbits [data-orbit-rotate="left"] {
+        --orbit-rotate-to: -360deg;
+    }
 
-        .orbits .inner {
-            --width: var(--orbit-inner-size);
-        }
+    .orbits [data-orbit-rotate="right"] {
+        --orbit-rotate-to: 360deg;
+    }
 
-        .orbits [data-orbit-rotate="left"] {
-            --orbit-rotate-to: -360deg;
-        }
+    .orbits img {
+        grid-area: 1/1;
+        width: var(--orbit-image-size);
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        object-fit: cover;
+        --translate: translateX(var(--tx, 0)) translateY(var(--ty, 0));
+        transform: var(--translate);
+        animation: orbit-image-rotate var(--orbit-animation-duration) linear infinite;
+        place-self: var(--ps);
+    }
 
-        .orbits [data-orbit-rotate="right"] {
-            --orbit-rotate-to: 360deg;
-        }
+    .orbits img:nth-child(1) {
+        --ps: start center;
+        --ty: -50%;
+    }
 
-        .orbits img {
-            grid-area: 1/1;
-            width: var(--orbit-image-size);
-            aspect-ratio: 1/1;
-            border-radius: 50%;
-            object-fit: cover;
-            --translate: translateX(var(--tx, 0)) translateY(var(--ty, 0));
-            transform: var(--translate);
-            animation: orbit-image-rotate var(--orbit-animation-duration) linear infinite;
-            place-self: var(--ps);
-        }
+    .orbits img:nth-child(2) {
+        --ps: center end;
+        --tx: 50%;
+    }
 
-        .orbits img:nth-child(1) {
-            --ps: start center;
-            --ty: -50%;
-        }
+    .orbits img:nth-child(3) {
+        --ps: end center;
+        --ty: 50%;
+    }
 
-        .orbits img:nth-child(2) {
-            --ps: center end;
-            --tx: 50%;
-        }
+    .orbits img:nth-child(4) {
+        --ps: center start;
+        --tx: -50%;
+    }
 
-        .orbits img:nth-child(3) {
-            --ps: end center;
-            --ty: 50%;
+    @keyframes orbit-rotate {
+        to {
+            transform: rotate(var(--orbit-rotate-to));
         }
+    }
 
-        .orbits img:nth-child(4) {
-            --ps: center start;
-            --tx: -50%;
+    @keyframes orbit-image-rotate {
+        to {
+            transform: var(--translate) rotate(calc(var(--orbit-rotate-to) * -1));
         }
+    }
+</style>
 
-        @keyframes orbit-rotate {
-            to {
-                transform: rotate(var(--orbit-rotate-to));
-            }
-        }
-
-        @keyframes orbit-image-rotate {
-            to {
-                transform: var(--translate) rotate(calc(var(--orbit-rotate-to) * -1));
-            }
-        }
-    </style>
-</head>
 <body>
-    <div class="container">
-        <section class="orbit-section">
-            <div class="orbits">
-                <div class="left">
-                    <div class="outer" data-orbit-rotate="right">
-                        <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
-                    </div>
-                    <div class="inner" data-orbit-rotate="left">
-                        <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_c8ca989da4de4066adb99a8c5f350249~mv2.png" alt="">
-                    </div>
+    <section class="orbit-section">
+        <div class="orbits">
+            <div class="left">
+                <div class="outer" data-orbit-rotate="right">
+                    <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
                 </div>
-                <div class="right">
-                    <div class="outer" data-orbit-rotate="left">
-                        <img src="https://static.wixstatic.com/media/62aabc_28c250b89bc545fe91af7254114c0e73~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
-                    </div>
-                    <div class="inner" data-orbit-rotate="right">
-                        <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
-                        <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
-                    </div>
+                <div class="inner" data-orbit-rotate="left">
+                    <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_c8ca989da4de4066adb99a8c5f350249~mv2.png" alt="">
                 </div>
             </div>
-            <div class="content">
-                <p></p>
-                <h1 class="logo">Global<wbr><span> Gems</span></h1>
-                <p>
-                    We specialize in delivering world-class solutions that empower
-                    businesses to streamline operations and achieve success on a
-                    global scale.
-                </p>
+            <div class="right">
+                <div class="outer" data-orbit-rotate="left">
+                    <img src="https://static.wixstatic.com/media/62aabc_28c250b89bc545fe91af7254114c0e73~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
+                </div>
+                <div class="inner" data-orbit-rotate="right">
+                    <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
+                    <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
+                </div>
             </div>
-        </section>
-    </div>
+        </div>
+        <div class="content">
+            <p></p>
+            <h1 class="logo">Global<wbr><span> Gems</span></h1>
+            <p>
+                We specialize in delivering world-class solutions that empower
+                businesses to streamline operations and achieve success on a
+                global scale.
+            </p>
+        </div>
+    </section>
 </body>
 </html>
