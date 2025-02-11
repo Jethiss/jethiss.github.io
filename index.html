@@ -1,196 +1,270 @@
 <html>
-<style>
-    /* .orbit-section */
 
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-    }
-    
-    .orbit-section {
-        display: grid;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        margin-inline: auto;
-    }
-
-    .orbit-section :is(.orbits, .content) {
-        grid-area: 1/1;
-    }
-
-    /* content */
-    .content {
-        place-self: center;
-        text-align: center;
-        max-width: 40ch;
-    }
-
-    .content>p:nth-of-type(1) {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-    }
-
-    .content>h1 {
-        font-size: 2rem;
-        font-weight: 400;
-        color: #ffffff;
-    }
-
-    .content>h1>span {
-        background: -webkit-linear-gradient(#80D0BB, #A6FC74);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .content>p:nth-of-type(2) {
-        font-size: 1.125rem;
-        color: #D0D1D1;
-    }
-
-    /* orbits */
-    .orbits {
-        --orbit-outer-size: 100%;
-        --orbit-inner-size: 75%;
-        --orbit-image-size: min(600px, 6rem);
-        --orbit-ring-color: hsl(0 0% 50% / 0.75);
-        --orbit-ring-thickness: 1px;
-        --orbit-animation-duration: 10s;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        --mask-image: radial-gradient(circle at center, transparent 40%, black 50%);
-        -webkit-mask-image: var(--mask-image);
-        mask-image: var(--mask-image);
-        overflow: hidden;
-        z-index: -1;
-    }
-
-    .orbits :is(.left, .right, .outer, .inner) {
-        display: grid;
-        aspect-ratio: 1/1;
-    }
-
-    .orbits .left {
-        place-items: center end;
-    }
-
-    .orbits .right {
-        place-items: center start;
-    }
-
-    .orbits :is(.outer, .inner) {
-        grid-area: 1/1;
-        width: calc(var(--width) - var(--orbit-image-size));
-        border: var(--orbit-ring-thickness) solid var(--orbit-ring-color);
-        border-radius: 50%;
-        animation: orbit-rotate var(--orbit-animation-duration) linear infinite;
-    }
-
-    .orbits .outer {
-        --width: var(--orbit-outer-size);
-    }
-
-    .orbits .inner {
-        --width: var(--orbit-inner-size);
-    }
-
-    .orbits [data-orbit-rotate="left"] {
-        --orbit-rotate-to: -360deg;
-    }
-
-    .orbits [data-orbit-rotate="right"] {
-        --orbit-rotate-to: 360deg;
-    }
-
-    .orbits img {
-        grid-area: 1/1;
-        width: var(--orbit-image-size);
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-        object-fit: cover;
-        --translate: translateX(var(--tx, 0)) translateY(var(--ty, 0));
-        transform: var(--translate);
-        animation: orbit-image-rotate var(--orbit-animation-duration) linear infinite;
-        place-self: var(--ps);
-    }
-
-    .orbits img:nth-child(1) {
-        --ps: start center;
-        --ty: -50%;
-    }
-
-    .orbits img:nth-child(2) {
-        --ps: center end;
-        --tx: 50%;
-    }
-
-    .orbits img:nth-child(3) {
-        --ps: end center;
-        --ty: 50%;
-    }
-
-    .orbits img:nth-child(4) {
-        --ps: center start;
-        --tx: -50%;
-    }
-
-    @keyframes orbit-rotate {
-        to {
-            transform: rotate(var(--orbit-rotate-to));
+<head>
+    <style type="text/css">
+        @media screen {
+            @font-face {
+                font-display: swap;
+                font-family: 'Nobel-Book';
+                font-style: normal;
+                font-weight: 200;
+                src: url('https://db.onlinewebfonts.com/c/1fecc64c049988c4739f3416d9abbabf?family=Nobel-Book') format('truetype');
+            }
         }
-    }
 
-    @keyframes orbit-image-rotate {
-        to {
-            transform: var(--translate) rotate(calc(var(--orbit-rotate-to) * -1));
+        body {
+            background-color: #e5e5e5;
+            margin: 0;
         }
-    }
-</style>
+
+        .contentBlock {
+            background-color: #fff;
+            font-family: 'Nobel-Book', Arial, Tahoma, Geneva, sans-serif;
+            font-size: 18px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .centeredBlock {
+            background-color: #fff;
+            font-family: 'Nobel-Book', Arial, Tahoma, Geneva, sans-serif;
+            font-size: 18px;
+            padding-left: 40px;
+            padding-right: 40px;
+            text-align: center;
+        }
+
+        .dateTimeBlock {
+            background-color: #fff;
+            font-family: 'Nobel-Book', Arial, Tahoma, Geneva, sans-serif;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .calendarBlock {
+            background-color: #fff;
+            font-family: 'Nobel-Book', Arial, Tahoma, Geneva, sans-serif;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+
+    <link href="https://db.onlinewebfonts.com/c/1fecc64c049988c4739f3416d9abbabf?family=Nobel-Book" rel="stylesheet">
+
+    <meta content="text/html; charset=iso-8859-1; " http-equiv="Content-Type">
+
+</head>
+
+<div style="display: none;">
+    Registration for Webinar 3 of the Lexus Guest Experience Leadership Summit Webinar Series is now open. Enroll today!
+</div>
 
 <body>
-    <section class="orbit-section">
-        <div class="orbits">
-            <div class="left">
-                <div class="outer" data-orbit-rotate="right">
-                    <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
-                </div>
-                <div class="inner" data-orbit-rotate="left">
-                    <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_c8ca989da4de4066adb99a8c5f350249~mv2.png" alt="">
-                </div>
-            </div>
-            <div class="right">
-                <div class="outer" data-orbit-rotate="left">
-                    <img src="https://static.wixstatic.com/media/62aabc_28c250b89bc545fe91af7254114c0e73~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_c38984bfcb0646489b83dff549f5e125~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_f46739ab05e24994aab7941dc2e74d89~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_9b11dcc8003048249fdf5a004a12cbde~mv2.png" alt="">
-                </div>
-                <div class="inner" data-orbit-rotate="right">
-                    <img src="https://static.wixstatic.com/media/62aabc_bc063b784c37437e9967b87ab8a5e744~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_969ec176c0cf406a8a4d00ff07faeef1~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_ff9cb289ab334e2ea4efd79c20935d45~mv2.png" alt="">
-                    <img src="https://static.wixstatic.com/media/62aabc_5ae02177f3c04f9393615aaa623a79e7~mv2.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <p></p>
-            <h1 class="logo">Global<wbr><span> Gems</span></h1>
-            <p>
-                We specialize in delivering world-class solutions that empower
-                businesses to streamline operations and achieve success on a
-                global scale.
-            </p>
-        </div>
-    </section>
+    <table align="center" border="0" bgcolor="#fff" cellpadding="0" cellspacing="0" width="700">
+        <tbody>
+
+            <tr>
+                <td valign="top">
+                    <img src="{{HEADER_IMAGE}}" width="700" align="center">
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <table align="center" border="0" ccellpadding="0" cellspacing="0" style="background-color: #fff;"
+                        width="700">
+                        <tbody>
+
+                            <tr>
+                                <td class="contentBlock">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p>
+                                        {[C-FIRST NAME]},
+                                    </p>
+                                        {{INTRODUCTION_PARAGRAPH}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="contentBlock">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p style="text-align: center;">
+                                        {{WEBINAR_DDTT_SLOTS}}
+                                    </p>
+                                    <p>
+                                        {{WEBINAR_INTRODUCTION}}
+                                    </p>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <table align="center" cellpadding="5" cellspacing="5" width="700"
+                                        style="background-color: #fff; padding-left: 50px; padding-right: 50px; border-spacing: 0px;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="dateTimeBlock" style="border-right: 1px solid">
+
+                                                    <a target="_blank" rel="noopener noreferrer"
+                                                        style="text-decoration: none; color: #000;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_1_DATE}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock">
+                                                    <a target="_blank" rel="noopener noreferrer"
+                                                        style="text-decoration: none; color: #000;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_2_DATE}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock" style="border-left: 1px solid">
+                                                    <a target="_blank" rel="noopener noreferrer"
+                                                        style="text-decoration: none; color: #000;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_3_DATE}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="dateTimeBlock" style="border-right: 1px solid">
+                                                    <a href="{{WEBINAR_DAY_1_AM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_1_AM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock">
+                                                    <a href="{{WEBINAR_DAY_2_AM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_2_AM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock" style="border-left: 1px solid">
+                                                    <a href="{{WEBINAR_DAY_3_AM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_3_AM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="dateTimeBlock" style="border-right: 1px solid">
+                                                    <a href="{{WEBINAR_DAY_1_PM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_1_PM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock">
+                                                    <a href="{{WEBINAR_DAY_2_PM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_2_PM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                                <td class="dateTimeBlock" style="border-left: 1px solid">
+                                                    <a href="{{WEBINAR_DAY_3_PM_QUMULINK}}"
+                                                        target="_blank" rel="noopener noreferrer"
+                                                        style="color: #0073e6; text-decoration: underline;">
+                                                        <b>
+                                                            {{WEBINAR_DAY_3_PM_TIME}}
+                                                        </b>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="centeredBlock">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p>
+                                        <strong>REGISTRATION DEADLINE</strong> <a rel="noopener" target="_blank"
+                                            style="text-decoration: none; color: #000;">{{REGISTRATION_DEADLINE}}</a>
+                                    </p>
+                                    <p style="text-align: left;">
+                                        {{DEADLINE_INFORMATION}}
+
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="contentBlock">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p>
+                                        <strong>UPCOMING WEBINARS</strong>
+                                    </p>
+                                    {{UPCOMING_WEBINARS_INFORMATION}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="contentBlock">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <p>
+                                        <strong>QUESTIONS?</strong>
+                                    </p>
+                                    <p>
+                                        We're happy to help. Contact us at
+                                        <a href="mailto:LexusSummit@travelhq.com" target="_blank"
+                                            style="color: #0073e6; text-decoration: underline;">LexusSummit@travelhq.com</a>.
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: #fff;">
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                    <img src="{{FOOTER_IMAGE}}" width="700" align="center">
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
 </body>
+
 </html>
